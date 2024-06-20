@@ -13,7 +13,7 @@ num_classes = 1
 max_len = 100
 
 tokenizer = get_tokenizer('basic_english')
-tokens_to_idx = pickle.load(open('tokens_to_idx.pkl', 'rb'))
+tokens_to_idx = pickle.load(open('weights/tokens_to_idx.pkl', 'rb'))
 
 
 def convert_to_vector(text: str) -> torch.Tensor:
