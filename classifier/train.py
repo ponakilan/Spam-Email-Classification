@@ -42,6 +42,7 @@ def train(model, train_dataloader, valid_dataloader, epoch, device, show_plot=Fa
     for i in range(epoch):
         print(f"Epoch {i} has started.")
         model.train()
+        loss = None
         for j, data in enumerate(train_dataloader):
             X, Y = data
             X, Y = X.to(device), Y.to(device)
@@ -74,3 +75,5 @@ def train(model, train_dataloader, valid_dataloader, epoch, device, show_plot=Fa
         plt.plot(history["valid_acc"])
         plt.legend(["Training accuracy", "Validation accuracy"])
         plt.show()
+
+    return history
