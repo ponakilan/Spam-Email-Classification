@@ -2,9 +2,12 @@ import pickle
 
 import torch
 import streamlit as st
+import torchtext
 from torchtext.data.utils import get_tokenizer
 
 from classifier.model import Classifier, load_model
+
+torchtext.disable_torchtext_deprecation_warning()
 
 vocab_size = 312768
 hidden_size = 128
@@ -40,9 +43,17 @@ text = st.text_area("Email text")
 
 if len(text) != 0:
     vector = convert_to_vector(text)
+
+    # Enable OneDNN Graph Fusion and trace the model
+    torch.jit.enable_onednn_fusion(True)
     model = Classifier(vocab_size, hidden_size, embed_size, num_classes)
-    load_model(model)
-    model.eval()
+    model = load_model(model)
+    with torch.no_grad():
+        model.eval()
+        model = torch.jit.trace(model, torch.randint(vocab_size, size=(1, max_len)))
+        model = torch.jit.freeze(model)
+
+    # Run inference on the model
     with torch.no_grad():
         outputs = model(vector.unsqueeze(0))
 

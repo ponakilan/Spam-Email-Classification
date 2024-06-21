@@ -31,3 +31,4 @@ def load_model(model, url="https://drive.google.com/file/d/1v8Q6enV6XDM_IqM7bDvp
     if not os.path.exists(output):
         gdown.download(url, output, quiet=False)
     model.load_state_dict(torch.load(output, map_location=map_location))
+    return model
