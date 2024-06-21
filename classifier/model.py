@@ -26,7 +26,7 @@ class Classifier(nn.Module):
         return x
 
 
-def load_model(model, url="https://drive.google.com/file/d/1v8Q6enV6XDM_IqM7bDvp9aqHvmWu2ax7/view?usp=sharing", map_location=torch.device('cpu')):
+def load_model(model, url="https://drive.google.com/file/d/1v8Q6enV6XDM_IqM7bDvp9aqHvmWu2ax7", map_location=torch.device('cpu')):
     output = "weights/EmailClassifier.pt"
     if not os.path.exists(output):
         gdown.download(url, output, quiet=False)
